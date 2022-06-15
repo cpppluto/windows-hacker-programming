@@ -1,4 +1,4 @@
-// CreateProcessAsUser_Test.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// CreateProcessAsUser_Test.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -10,25 +10,32 @@
 #pragma comment(lib, "WtsApi32.lib")
 
 
-// ·şÎñÈë¿Úº¯ÊıÒÔ¼°´¦Àí»Øµ÷º¯Êı
+// æœåŠ¡å…¥å£å‡½æ•°
 void __stdcall ServiceMain(DWORD dwArgc, char *lpszArgv);
+
+//æœåŠ¡å›è°ƒå‡½æ•°
 void __stdcall ServiceCtrlHandle(DWORD dwOperateCode);
+
 void DoTask();
-// ÏÔÊ¾ÏûÏ¢¶Ô»°¿ò
+
+// æ˜¾ç¤ºæ¶ˆæ¯å¯¹è¯æ¡†
 void ShowMessage(TCHAR *lpszMessage, TCHAR *lpszTitle);
-// ´´½¨ÓÃ»§½ø³Ì
+
+// åˆ›å»ºç”¨æˆ·è¿›ç¨‹
 BOOL CreateUserProcess(char *lpszFileName);
 
-// È«¾Ö±äÁ¿
-char g_szServiceName[MAX_PATH] = "CreateProcessAsUser_Test.exe";    // ·şÎñÃû³Æ 
+// å…¨å±€å˜é‡
+char g_szServiceName[MAX_PATH] = "CreateProcessAsUser_Test.exe";    // æœåŠ¡åç§° 
 SERVICE_STATUS g_ServiceStatus = { 0 };
 SERVICE_STATUS_HANDLE g_ServiceStatusHandle = { 0 };
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	// ×¢²á·şÎñÈë¿Úº¯Êı
+	// æ³¨å†ŒæœåŠ¡å…¥å£å‡½æ•°
 	SERVICE_TABLE_ENTRY stDispatchTable[] = { { g_szServiceName, (LPSERVICE_MAIN_FUNCTION)ServiceMain }, { NULL, NULL } };
+
+	//å°†æœåŠ¡è¿›ç¨‹çš„ä¸»çº¿ç¨‹è¿æ¥åˆ°æœåŠ¡æ§åˆ¶ç®¡ç†å™¨ï¼Œä½¿è¯¥çº¿ç¨‹æˆä¸ºè°ƒç”¨è¿›ç¨‹çš„æœåŠ¡æ§åˆ¶è°ƒåº¦çº¿ç¨‹ã€‚
 	::StartServiceCtrlDispatcher(stDispatchTable);
 
 	return 0;
@@ -45,6 +52,7 @@ void __stdcall ServiceMain(DWORD dwArgc, char *lpszArgv)
 	g_ServiceStatus.dwCheckPoint = 0;
 	g_ServiceStatus.dwWaitHint = 0;
 
+	//æ³¨å†Œä¸€ä¸ªå‡½æ•°æ¥å¤„ç†æœåŠ¡æ§åˆ¶è¯·æ±‚ã€‚
 	g_ServiceStatusHandle = ::RegisterServiceCtrlHandler(g_szServiceName, ServiceCtrlHandle);
 
 	g_ServiceStatus.dwCurrentState = SERVICE_RUNNING;
@@ -52,7 +60,7 @@ void __stdcall ServiceMain(DWORD dwArgc, char *lpszArgv)
 	g_ServiceStatus.dwWaitHint = 0;
 	::SetServiceStatus(g_ServiceStatusHandle, &g_ServiceStatus);
 
-	// ×Ô¼º³ÌĞòÊµÏÖ²¿·Ö´úÂë·ÅÔÚÕâÀï
+	// è‡ªå·±ç¨‹åºå®ç°éƒ¨åˆ†ä»£ç æ”¾åœ¨è¿™é‡Œ
 	DoTask();
 }
 
@@ -63,19 +71,19 @@ void __stdcall ServiceCtrlHandle(DWORD dwOperateCode)
 	{
 	case SERVICE_CONTROL_PAUSE:
 	{
-		// ÔİÍ£
+		// æš‚åœ
 		g_ServiceStatus.dwCurrentState = SERVICE_PAUSED;
 		break;
 	}
 	case SERVICE_CONTROL_CONTINUE:
 	{
-		// ¼ÌĞø
+		// ç»§ç»­
 		g_ServiceStatus.dwCurrentState = SERVICE_RUNNING;
 		break;
 	}
 	case SERVICE_CONTROL_STOP:
 	{
-		// Í£Ö¹
+		// åœæ­¢
 		g_ServiceStatus.dwWin32ExitCode = 0;
 		g_ServiceStatus.dwCurrentState = SERVICE_STOPPED;
 		g_ServiceStatus.dwCheckPoint = 0;
@@ -85,7 +93,7 @@ void __stdcall ServiceCtrlHandle(DWORD dwOperateCode)
 	}
 	case SERVICE_CONTROL_INTERROGATE:
 	{
-		// Ñ¯ÎÊ
+		// è¯¢é—®
 		break;
 	}
 	default:
@@ -96,20 +104,22 @@ void __stdcall ServiceCtrlHandle(DWORD dwOperateCode)
 
 void DoTask()
 {
-	// ×Ô¼º³ÌĞòÊµÏÖ²¿·Ö´úÂë·ÅÔÚÕâÀï
-	// ÏÔÊ¾¶Ô»°¿ò
-	ShowMessage("Hi Demon¡¤Gan\nThis Is From Session 0 Service!\n", "HELLO");
-	// ´´½¨ÓÃ»§×ÀÃæ½ø³Ì
-	CreateUserProcess("C:\\Users\\DemonGan\\Desktop\\520.exe");
+	// è‡ªå·±ç¨‹åºå®ç°éƒ¨åˆ†ä»£ç æ”¾åœ¨è¿™é‡Œ
+	// æ˜¾ç¤ºå¯¹è¯æ¡†
+	ShowMessage("This Message From Session 0 Service!\n I will CreateUserProcess", "HELLO");
+	// åˆ›å»ºç”¨æˆ·æ¡Œé¢è¿›ç¨‹
+	CreateUserProcess("C:\\test.exe");
 }
 
 
 void ShowMessage(TCHAR *lpszMessage, TCHAR *lpszTitle)
 {
-	// »ñÈ¡µ±Ç°µÄSession ID
+	// è·å–å½“å‰çš„Session ID
 	DWORD dwSessionId = ::WTSGetActiveConsoleSessionId();
-	// ÏÔÊ¾ÏûÏ¢¶Ô»°¿ò
+	// æ˜¾ç¤ºæ¶ˆæ¯å¯¹è¯æ¡†
 	DWORD dwResponse = 0;
+
+	//ä»æœåŠ¡(session0)å‘æ¡Œé¢ç”¨æˆ·Session å‘é€æ¶ˆæ¯çª—å£
 	::WTSSendMessage(WTS_CURRENT_SERVER_HANDLE, dwSessionId,
 		lpszTitle, (1 + ::lstrlen(lpszTitle)),
 		lpszMessage, (1 + ::lstrlen(lpszMessage)),
@@ -117,7 +127,7 @@ void ShowMessage(TCHAR *lpszMessage, TCHAR *lpszTitle)
 }
 
 
-// Í»ÆÆSESSION 0¸ôÀë´´½¨ÓÃ»§½ø³Ì
+// çªç ´SESSION 0éš”ç¦»åˆ›å»ºç”¨æˆ·è¿›ç¨‹
 BOOL CreateUserProcess(char *lpszFileName)
 {
 	BOOL bRet = TRUE;
@@ -131,10 +141,10 @@ BOOL CreateUserProcess(char *lpszFileName)
 
 	do
 	{
-		// »ñµÃµ±Ç°Session ID
+		// è·å¾—å½“å‰Session ID
 		dwSessionID = ::WTSGetActiveConsoleSessionId();
 
-		// »ñµÃµ±Ç°SessionµÄÓÃ»§ÁîÅÆ
+		// è·å¾—å½“å‰Sessionçš„ç”¨æˆ·ä»¤ç‰Œ
 		if (FALSE == ::WTSQueryUserToken(dwSessionID, &hToken))
 		{
 			ShowMessage("WTSQueryUserToken", "ERROR");
@@ -142,7 +152,7 @@ BOOL CreateUserProcess(char *lpszFileName)
 			break;
 		}
 
-		// ¸´ÖÆÁîÅÆ
+		// å¤åˆ¶ä»¤ç‰Œ
 		if (FALSE == ::DuplicateTokenEx(hToken, MAXIMUM_ALLOWED, NULL,
 			SecurityIdentification, TokenPrimary, &hDuplicatedToken))
 		{
@@ -151,7 +161,7 @@ BOOL CreateUserProcess(char *lpszFileName)
 			break;
 		}
 
-		// ´´½¨ÓÃ»§Session»·¾³
+		// åˆ›å»ºç”¨æˆ·Sessionç¯å¢ƒ
 		if (FALSE == ::CreateEnvironmentBlock(&lpEnvironment,
 			hDuplicatedToken, FALSE))
 		{
@@ -160,7 +170,7 @@ BOOL CreateUserProcess(char *lpszFileName)
 			break;
 		}
 
-		// ÔÚ¸´ÖÆµÄÓÃ»§SessionÏÂÖ´ĞĞÓ¦ÓÃ³ÌĞò£¬´´½¨½ø³Ì
+		// åœ¨å¤åˆ¶çš„ç”¨æˆ·Sessionä¸‹æ‰§è¡Œåº”ç”¨ç¨‹åºï¼Œåˆ›å»ºè¿›ç¨‹
 		if (FALSE == ::CreateProcessAsUser(hDuplicatedToken,
 			lpszFileName, NULL, NULL, NULL, FALSE,
 			NORMAL_PRIORITY_CLASS | CREATE_NEW_CONSOLE | CREATE_UNICODE_ENVIRONMENT,
@@ -172,7 +182,7 @@ BOOL CreateUserProcess(char *lpszFileName)
 		}
 
 	} while (FALSE);
-	// ¹Ø±Õ¾ä±ú, ÊÍ·Å×ÊÔ´
+	// å…³é—­å¥æŸ„, é‡Šæ”¾èµ„æº
 	if (lpEnvironment)
 	{
 		::DestroyEnvironmentBlock(lpEnvironment);
