@@ -1,4 +1,4 @@
-// ServiceLoader.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// ServiceLoader.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -8,9 +8,10 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	BOOL bRet = FALSE;
-	char szExePath[] = "C:\\Users\\DemonGan\\Desktop\\CreateProcessAsUser_Test\\Debug\\CreateProcessAsUser_Test.exe";
+	//è¿›ç¨‹è·¯å¾„
+	char szExePath[] = "C:\\CreateProcessAsUser_Test.exe";
 
-	// ¼ÓÔØ·şÎñ
+	// åŠ è½½æœåŠ¡
 	bRet = SystemServiceOperate(szExePath, 0);
 	if (bRet)
 	{
@@ -20,7 +21,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		printf("INSTALL ERROR.\n");
 	}
-	// Æô¶¯·şÎñ
+	// å¯åŠ¨æœåŠ¡
 	bRet = SystemServiceOperate(szExePath, 1);
 	if (bRet)
 	{
@@ -34,7 +35,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	system("pause");
 
-	// Í£Ö¹·şÎñ
+	// åœæ­¢æœåŠ¡
 	bRet = SystemServiceOperate(szExePath, 2);
 	if (bRet)
 	{
@@ -44,7 +45,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		printf("STOP ERROR.\n");
 	}
-	// Ğ¶ÔØ·şÎñ
+	// å¸è½½æœåŠ¡
 	bRet = SystemServiceOperate(szExePath, 3);
 	if (bRet)
 	{
