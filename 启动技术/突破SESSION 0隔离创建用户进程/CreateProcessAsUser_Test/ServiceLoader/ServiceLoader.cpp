@@ -8,7 +8,6 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	BOOL bRet = FALSE;
-	//进程路径
 	char szExePath[] = "C:\\CreateProcessAsUser_Test.exe";
 
 	// 加载服务
@@ -55,8 +54,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		printf("UNINSTALL ERROR.\n");
 	}
-	
-	system("pause");
+
 	return 0;
 }
 
