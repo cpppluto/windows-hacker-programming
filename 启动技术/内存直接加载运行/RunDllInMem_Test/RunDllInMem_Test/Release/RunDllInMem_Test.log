@@ -1,0 +1,7 @@
+﻿  Building 'RunDllInMem_Test' with toolset 'WindowsApplicationForDrivers10.0' and the 'Desktop' target platform.
+  stdafx.cpp
+  MmLoadDll.cpp
+  RunDllInMem_Test.cpp
+e:\book\kernel and drivers\windows黑客编程技术详解-配套代码\用户层\4\内存直接加载运行\rundllinmem_test\rundllinmem_test\rundllinmem_test.cpp(9): error C2220: 警告被视为错误 - 没有生成“object”文件
+e:\book\kernel and drivers\windows黑客编程技术详解-配套代码\用户层\4\内存直接加载运行\rundllinmem_test\rundllinmem_test\rundllinmem_test.cpp(9): warning C4007: “main”: 必须是“__cdecl”
+e:\book\kernel and drivers\windows黑客编程技术详解-配套代码\用户层\4\内存直接加载运行\rundllinmem_test\rundllinmem_test\rundllinmem_test.cpp(63): error C3861: “system”: 找不到标识符
